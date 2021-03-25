@@ -1,0 +1,893 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="project_enitiyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="customer_name" />
+          </Key>
+          <Property Name="customer_name" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="fax" Type="nchar" MaxLength="20" />
+          <Property Name="mobile" Type="nchar" MaxLength="20" />
+          <Property Name="telephone" Type="nchar" MaxLength="20" />
+          <Property Name="email" Type="nchar" MaxLength="20" />
+          <Property Name="website" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="exchane_permit_items">
+          <Key>
+            <PropertyRef Name="exc_permit_id" />
+            <PropertyRef Name="item_name" />
+          </Key>
+          <Property Name="exc_permit_id" Type="int" Nullable="false" />
+          <Property Name="item_name" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="amount" Type="int" />
+          <Property Name="prod_date" Type="date" />
+          <Property Name="exp_date" Type="date" />
+          <Property Name="supplier_name" Type="nchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="exchang_permit">
+          <Key>
+            <PropertyRef Name="exc_permit_id" />
+          </Key>
+          <Property Name="exc_permit_id" Type="int" Nullable="false" />
+          <Property Name="warehouse_out_id" Type="int" />
+          <Property Name="warehouse_in_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="Item_name" />
+          </Key>
+          <Property Name="Item_name" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="Item_code" Type="int" />
+        </EntityType>
+        <EntityType Name="item_units">
+          <Key>
+            <PropertyRef Name="item_name" />
+            <PropertyRef Name="Item_unit" />
+          </Key>
+          <Property Name="item_name" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="Item_unit" Type="nchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <EntityType Name="selling_permit">
+          <Key>
+            <PropertyRef Name="sell_permit_id" />
+          </Key>
+          <Property Name="sell_permit_id" Type="int" Nullable="false" />
+          <Property Name="warehouse_id" Type="int" />
+          <Property Name="permit_date" Type="date" />
+        </EntityType>
+        <EntityType Name="selling_permit_items">
+          <Key>
+            <PropertyRef Name="sell_permit_id" />
+            <PropertyRef Name="item_name" />
+          </Key>
+          <Property Name="sell_permit_id" Type="int" Nullable="false" />
+          <Property Name="item_name" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="amount" Type="int" />
+          <Property Name="supplier_name" Type="nchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="supplier">
+          <Key>
+            <PropertyRef Name="supplier_name" />
+          </Key>
+          <Property Name="supplier_name" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="fax" Type="nchar" MaxLength="20" />
+          <Property Name="telephone" Type="nchar" MaxLength="20" />
+          <Property Name="email" Type="nchar" MaxLength="20" />
+          <Property Name="website" Type="nchar" MaxLength="20" />
+          <Property Name="mobile" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="supplying_permit">
+          <Key>
+            <PropertyRef Name="supp_permit_id" />
+          </Key>
+          <Property Name="supp_permit_id" Type="int" Nullable="false" />
+          <Property Name="warehouse_id" Type="int" />
+          <Property Name="supplier_name" Type="nchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="supplying_permit_items">
+          <Key>
+            <PropertyRef Name="supp_permit_id" />
+            <PropertyRef Name="item_name" />
+          </Key>
+          <Property Name="supp_permit_id" Type="int" Nullable="false" />
+          <Property Name="item_name" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="amout" Type="int" />
+          <Property Name="prod_date" Type="date" />
+          <Property Name="exp_date" Type="date" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="warehouse">
+          <Key>
+            <PropertyRef Name="warehouse_id" />
+          </Key>
+          <Property Name="warehouse_id" Type="int" Nullable="false" />
+          <Property Name="warehouse_name" Type="nchar" MaxLength="40" />
+          <Property Name="address" Type="nchar" MaxLength="40" />
+          <Property Name="mgr_id" Type="int" />
+        </EntityType>
+        <Association Name="FK_exchane_permit_items_exchang_permit">
+          <End Role="exchang_permit" Type="Self.exchang_permit" Multiplicity="1" />
+          <End Role="exchane_permit_items" Type="Self.exchane_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exchang_permit">
+              <PropertyRef Name="exc_permit_id" />
+            </Principal>
+            <Dependent Role="exchane_permit_items">
+              <PropertyRef Name="exc_permit_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_exchane_permit_items_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="exchane_permit_items" Type="Self.exchane_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item_name" />
+            </Principal>
+            <Dependent Role="exchane_permit_items">
+              <PropertyRef Name="item_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_exchane_permit_items_supplier">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="0..1" />
+          <End Role="exchane_permit_items" Type="Self.exchane_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="supplier_name" />
+            </Principal>
+            <Dependent Role="exchane_permit_items">
+              <PropertyRef Name="supplier_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_exchang_permit_warehouse">
+          <End Role="warehouse" Type="Self.warehouse" Multiplicity="0..1" />
+          <End Role="exchang_permit" Type="Self.exchang_permit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="warehouse">
+              <PropertyRef Name="warehouse_id" />
+            </Principal>
+            <Dependent Role="exchang_permit">
+              <PropertyRef Name="warehouse_out_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_exchang_permit_warehouse1">
+          <End Role="warehouse" Type="Self.warehouse" Multiplicity="0..1" />
+          <End Role="exchang_permit" Type="Self.exchang_permit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="warehouse">
+              <PropertyRef Name="warehouse_id" />
+            </Principal>
+            <Dependent Role="exchang_permit">
+              <PropertyRef Name="warehouse_in_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_item_units_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="item_units" Type="Self.item_units" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item_name" />
+            </Principal>
+            <Dependent Role="item_units">
+              <PropertyRef Name="item_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_selling_permit_items_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="selling_permit_items" Type="Self.selling_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item_name" />
+            </Principal>
+            <Dependent Role="selling_permit_items">
+              <PropertyRef Name="item_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_selling_permit_items_selling_permit">
+          <End Role="selling_permit" Type="Self.selling_permit" Multiplicity="1" />
+          <End Role="selling_permit_items" Type="Self.selling_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="selling_permit">
+              <PropertyRef Name="sell_permit_id" />
+            </Principal>
+            <Dependent Role="selling_permit_items">
+              <PropertyRef Name="sell_permit_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_selling_permit_items_supplier">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="0..1" />
+          <End Role="selling_permit_items" Type="Self.selling_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="supplier_name" />
+            </Principal>
+            <Dependent Role="selling_permit_items">
+              <PropertyRef Name="supplier_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_selling_permit_warehouse">
+          <End Role="warehouse" Type="Self.warehouse" Multiplicity="0..1" />
+          <End Role="selling_permit" Type="Self.selling_permit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="warehouse">
+              <PropertyRef Name="warehouse_id" />
+            </Principal>
+            <Dependent Role="selling_permit">
+              <PropertyRef Name="warehouse_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supplying_permit_items_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="supplying_permit_items" Type="Self.supplying_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item_name" />
+            </Principal>
+            <Dependent Role="supplying_permit_items">
+              <PropertyRef Name="item_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supplying_permit_items_supplying_permit">
+          <End Role="supplying_permit" Type="Self.supplying_permit" Multiplicity="1" />
+          <End Role="supplying_permit_items" Type="Self.supplying_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplying_permit">
+              <PropertyRef Name="supp_permit_id" />
+            </Principal>
+            <Dependent Role="supplying_permit_items">
+              <PropertyRef Name="supp_permit_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supplying_permit_supplier">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="0..1" />
+          <End Role="supplying_permit" Type="Self.supplying_permit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="supplier_name" />
+            </Principal>
+            <Dependent Role="supplying_permit">
+              <PropertyRef Name="supplier_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supplying_permit_warehouse">
+          <End Role="warehouse" Type="Self.warehouse" Multiplicity="0..1" />
+          <End Role="supplying_permit" Type="Self.supplying_permit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="warehouse">
+              <PropertyRef Name="warehouse_id" />
+            </Principal>
+            <Dependent Role="supplying_permit">
+              <PropertyRef Name="warehouse_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="project_enitiyModelStoreContainer">
+          <EntitySet Name="customer" EntityType="Self.customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="exchane_permit_items" EntityType="Self.exchane_permit_items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="exchang_permit" EntityType="Self.exchang_permit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="item_units" EntityType="Self.item_units" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="selling_permit" EntityType="Self.selling_permit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="selling_permit_items" EntityType="Self.selling_permit_items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="supplier" EntityType="Self.supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="supplying_permit" EntityType="Self.supplying_permit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="supplying_permit_items" EntityType="Self.supplying_permit_items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="warehouse" EntityType="Self.warehouse" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_exchane_permit_items_exchang_permit" Association="Self.FK_exchane_permit_items_exchang_permit">
+            <End Role="exchang_permit" EntitySet="exchang_permit" />
+            <End Role="exchane_permit_items" EntitySet="exchane_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exchane_permit_items_Item" Association="Self.FK_exchane_permit_items_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="exchane_permit_items" EntitySet="exchane_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exchane_permit_items_supplier" Association="Self.FK_exchane_permit_items_supplier">
+            <End Role="supplier" EntitySet="supplier" />
+            <End Role="exchane_permit_items" EntitySet="exchane_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exchang_permit_warehouse" Association="Self.FK_exchang_permit_warehouse">
+            <End Role="warehouse" EntitySet="warehouse" />
+            <End Role="exchang_permit" EntitySet="exchang_permit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exchang_permit_warehouse1" Association="Self.FK_exchang_permit_warehouse1">
+            <End Role="warehouse" EntitySet="warehouse" />
+            <End Role="exchang_permit" EntitySet="exchang_permit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_item_units_Item" Association="Self.FK_item_units_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="item_units" EntitySet="item_units" />
+          </AssociationSet>
+          <AssociationSet Name="FK_selling_permit_items_Item" Association="Self.FK_selling_permit_items_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="selling_permit_items" EntitySet="selling_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_selling_permit_items_selling_permit" Association="Self.FK_selling_permit_items_selling_permit">
+            <End Role="selling_permit" EntitySet="selling_permit" />
+            <End Role="selling_permit_items" EntitySet="selling_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_selling_permit_items_supplier" Association="Self.FK_selling_permit_items_supplier">
+            <End Role="supplier" EntitySet="supplier" />
+            <End Role="selling_permit_items" EntitySet="selling_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_selling_permit_warehouse" Association="Self.FK_selling_permit_warehouse">
+            <End Role="warehouse" EntitySet="warehouse" />
+            <End Role="selling_permit" EntitySet="selling_permit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supplying_permit_items_Item" Association="Self.FK_supplying_permit_items_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="supplying_permit_items" EntitySet="supplying_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supplying_permit_items_supplying_permit" Association="Self.FK_supplying_permit_items_supplying_permit">
+            <End Role="supplying_permit" EntitySet="supplying_permit" />
+            <End Role="supplying_permit_items" EntitySet="supplying_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supplying_permit_supplier" Association="Self.FK_supplying_permit_supplier">
+            <End Role="supplier" EntitySet="supplier" />
+            <End Role="supplying_permit" EntitySet="supplying_permit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supplying_permit_warehouse" Association="Self.FK_supplying_permit_warehouse">
+            <End Role="warehouse" EntitySet="warehouse" />
+            <End Role="supplying_permit" EntitySet="supplying_permit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="project_enitiyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="customer_name" />
+          </Key>
+          <Property Name="customer_name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="fax" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="mobile" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="telephone" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="website" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="exchane_permit_items">
+          <Key>
+            <PropertyRef Name="exc_permit_id" />
+            <PropertyRef Name="item_name" />
+          </Key>
+          <Property Name="exc_permit_id" Type="Int32" Nullable="false" />
+          <Property Name="item_name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="amount" Type="Int32" />
+          <Property Name="prod_date" Type="DateTime" Precision="0" />
+          <Property Name="exp_date" Type="DateTime" Precision="0" />
+          <Property Name="supplier_name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="exchang_permit" Relationship="Self.FK_exchane_permit_items_exchang_permit" FromRole="exchane_permit_items" ToRole="exchang_permit" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_exchane_permit_items_Item" FromRole="exchane_permit_items" ToRole="Item" />
+          <NavigationProperty Name="supplier" Relationship="Self.FK_exchane_permit_items_supplier" FromRole="exchane_permit_items" ToRole="supplier" />
+        </EntityType>
+        <EntityType Name="exchang_permit">
+          <Key>
+            <PropertyRef Name="exc_permit_id" />
+          </Key>
+          <Property Name="exc_permit_id" Type="Int32" Nullable="false" />
+          <Property Name="warehouse_out_id" Type="Int32" />
+          <Property Name="warehouse_in_id" Type="Int32" />
+          <NavigationProperty Name="exchane_permit_items" Relationship="Self.FK_exchane_permit_items_exchang_permit" FromRole="exchang_permit" ToRole="exchane_permit_items" />
+          <NavigationProperty Name="warehouse" Relationship="Self.FK_exchang_permit_warehouse" FromRole="exchang_permit" ToRole="warehouse" />
+          <NavigationProperty Name="warehouse1" Relationship="Self.FK_exchang_permit_warehouse1" FromRole="exchang_permit" ToRole="warehouse" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="Item_name" />
+          </Key>
+          <Property Name="Item_name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Item_code" Type="Int32" />
+          <NavigationProperty Name="exchane_permit_items" Relationship="Self.FK_exchane_permit_items_Item" FromRole="Item" ToRole="exchane_permit_items" />
+          <NavigationProperty Name="item_units" Relationship="Self.FK_item_units_Item" FromRole="Item" ToRole="item_units" />
+          <NavigationProperty Name="selling_permit_items" Relationship="Self.FK_selling_permit_items_Item" FromRole="Item" ToRole="selling_permit_items" />
+          <NavigationProperty Name="supplying_permit_items" Relationship="Self.FK_supplying_permit_items_Item" FromRole="Item" ToRole="supplying_permit_items" />
+        </EntityType>
+        <EntityType Name="item_units">
+          <Key>
+            <PropertyRef Name="item_name" />
+            <PropertyRef Name="Item_unit" />
+          </Key>
+          <Property Name="item_name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Item_unit" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_item_units_Item" FromRole="item_units" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="selling_permit">
+          <Key>
+            <PropertyRef Name="sell_permit_id" />
+          </Key>
+          <Property Name="sell_permit_id" Type="Int32" Nullable="false" />
+          <Property Name="warehouse_id" Type="Int32" />
+          <Property Name="permit_date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="selling_permit_items" Relationship="Self.FK_selling_permit_items_selling_permit" FromRole="selling_permit" ToRole="selling_permit_items" />
+          <NavigationProperty Name="warehouse" Relationship="Self.FK_selling_permit_warehouse" FromRole="selling_permit" ToRole="warehouse" />
+        </EntityType>
+        <EntityType Name="selling_permit_items">
+          <Key>
+            <PropertyRef Name="sell_permit_id" />
+            <PropertyRef Name="item_name" />
+          </Key>
+          <Property Name="sell_permit_id" Type="Int32" Nullable="false" />
+          <Property Name="item_name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="amount" Type="Int32" />
+          <Property Name="supplier_name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_selling_permit_items_Item" FromRole="selling_permit_items" ToRole="Item" />
+          <NavigationProperty Name="selling_permit" Relationship="Self.FK_selling_permit_items_selling_permit" FromRole="selling_permit_items" ToRole="selling_permit" />
+          <NavigationProperty Name="supplier" Relationship="Self.FK_selling_permit_items_supplier" FromRole="selling_permit_items" ToRole="supplier" />
+        </EntityType>
+        <EntityType Name="supplier">
+          <Key>
+            <PropertyRef Name="supplier_name" />
+          </Key>
+          <Property Name="supplier_name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="fax" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="telephone" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="website" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="mobile" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="exchane_permit_items" Relationship="Self.FK_exchane_permit_items_supplier" FromRole="supplier" ToRole="exchane_permit_items" />
+          <NavigationProperty Name="selling_permit_items" Relationship="Self.FK_selling_permit_items_supplier" FromRole="supplier" ToRole="selling_permit_items" />
+          <NavigationProperty Name="supplying_permit" Relationship="Self.FK_supplying_permit_supplier" FromRole="supplier" ToRole="supplying_permit" />
+        </EntityType>
+        <EntityType Name="supplying_permit">
+          <Key>
+            <PropertyRef Name="supp_permit_id" />
+          </Key>
+          <Property Name="supp_permit_id" Type="Int32" Nullable="false" />
+          <Property Name="warehouse_id" Type="Int32" />
+          <Property Name="supplier_name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="supplier" Relationship="Self.FK_supplying_permit_supplier" FromRole="supplying_permit" ToRole="supplier" />
+          <NavigationProperty Name="supplying_permit_items" Relationship="Self.FK_supplying_permit_items_supplying_permit" FromRole="supplying_permit" ToRole="supplying_permit_items" />
+          <NavigationProperty Name="warehouse" Relationship="Self.FK_supplying_permit_warehouse" FromRole="supplying_permit" ToRole="warehouse" />
+        </EntityType>
+        <EntityType Name="supplying_permit_items">
+          <Key>
+            <PropertyRef Name="supp_permit_id" />
+            <PropertyRef Name="item_name" />
+          </Key>
+          <Property Name="supp_permit_id" Type="Int32" Nullable="false" />
+          <Property Name="item_name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="amout" Type="Int32" />
+          <Property Name="prod_date" Type="DateTime" Precision="0" />
+          <Property Name="exp_date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_supplying_permit_items_Item" FromRole="supplying_permit_items" ToRole="Item" />
+          <NavigationProperty Name="supplying_permit" Relationship="Self.FK_supplying_permit_items_supplying_permit" FromRole="supplying_permit_items" ToRole="supplying_permit" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="warehouse">
+          <Key>
+            <PropertyRef Name="warehouse_id" />
+          </Key>
+          <Property Name="warehouse_id" Type="Int32" Nullable="false" />
+          <Property Name="warehouse_name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="mgr_id" Type="Int32" />
+          <NavigationProperty Name="exchang_permit" Relationship="Self.FK_exchang_permit_warehouse" FromRole="warehouse" ToRole="exchang_permit" />
+          <NavigationProperty Name="exchang_permit1" Relationship="Self.FK_exchang_permit_warehouse1" FromRole="warehouse" ToRole="exchang_permit" />
+          <NavigationProperty Name="selling_permit" Relationship="Self.FK_selling_permit_warehouse" FromRole="warehouse" ToRole="selling_permit" />
+          <NavigationProperty Name="supplying_permit" Relationship="Self.FK_supplying_permit_warehouse" FromRole="warehouse" ToRole="supplying_permit" />
+        </EntityType>
+        <Association Name="FK_exchane_permit_items_exchang_permit">
+          <End Role="exchang_permit" Type="Self.exchang_permit" Multiplicity="1" />
+          <End Role="exchane_permit_items" Type="Self.exchane_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exchang_permit">
+              <PropertyRef Name="exc_permit_id" />
+            </Principal>
+            <Dependent Role="exchane_permit_items">
+              <PropertyRef Name="exc_permit_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_exchane_permit_items_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="exchane_permit_items" Type="Self.exchane_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item_name" />
+            </Principal>
+            <Dependent Role="exchane_permit_items">
+              <PropertyRef Name="item_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_exchane_permit_items_supplier">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="0..1" />
+          <End Role="exchane_permit_items" Type="Self.exchane_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="supplier_name" />
+            </Principal>
+            <Dependent Role="exchane_permit_items">
+              <PropertyRef Name="supplier_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_exchang_permit_warehouse">
+          <End Role="warehouse" Type="Self.warehouse" Multiplicity="0..1" />
+          <End Role="exchang_permit" Type="Self.exchang_permit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="warehouse">
+              <PropertyRef Name="warehouse_id" />
+            </Principal>
+            <Dependent Role="exchang_permit">
+              <PropertyRef Name="warehouse_out_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_exchang_permit_warehouse1">
+          <End Role="warehouse" Type="Self.warehouse" Multiplicity="0..1" />
+          <End Role="exchang_permit" Type="Self.exchang_permit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="warehouse">
+              <PropertyRef Name="warehouse_id" />
+            </Principal>
+            <Dependent Role="exchang_permit">
+              <PropertyRef Name="warehouse_in_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_item_units_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="item_units" Type="Self.item_units" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item_name" />
+            </Principal>
+            <Dependent Role="item_units">
+              <PropertyRef Name="item_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_selling_permit_items_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="selling_permit_items" Type="Self.selling_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item_name" />
+            </Principal>
+            <Dependent Role="selling_permit_items">
+              <PropertyRef Name="item_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supplying_permit_items_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="supplying_permit_items" Type="Self.supplying_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Item_name" />
+            </Principal>
+            <Dependent Role="supplying_permit_items">
+              <PropertyRef Name="item_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_selling_permit_items_selling_permit">
+          <End Role="selling_permit" Type="Self.selling_permit" Multiplicity="1" />
+          <End Role="selling_permit_items" Type="Self.selling_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="selling_permit">
+              <PropertyRef Name="sell_permit_id" />
+            </Principal>
+            <Dependent Role="selling_permit_items">
+              <PropertyRef Name="sell_permit_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_selling_permit_warehouse">
+          <End Role="warehouse" Type="Self.warehouse" Multiplicity="0..1" />
+          <End Role="selling_permit" Type="Self.selling_permit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="warehouse">
+              <PropertyRef Name="warehouse_id" />
+            </Principal>
+            <Dependent Role="selling_permit">
+              <PropertyRef Name="warehouse_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_selling_permit_items_supplier">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="0..1" />
+          <End Role="selling_permit_items" Type="Self.selling_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="supplier_name" />
+            </Principal>
+            <Dependent Role="selling_permit_items">
+              <PropertyRef Name="supplier_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supplying_permit_supplier">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="0..1" />
+          <End Role="supplying_permit" Type="Self.supplying_permit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="supplier_name" />
+            </Principal>
+            <Dependent Role="supplying_permit">
+              <PropertyRef Name="supplier_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supplying_permit_items_supplying_permit">
+          <End Role="supplying_permit" Type="Self.supplying_permit" Multiplicity="1" />
+          <End Role="supplying_permit_items" Type="Self.supplying_permit_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplying_permit">
+              <PropertyRef Name="supp_permit_id" />
+            </Principal>
+            <Dependent Role="supplying_permit_items">
+              <PropertyRef Name="supp_permit_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supplying_permit_warehouse">
+          <End Role="warehouse" Type="Self.warehouse" Multiplicity="0..1" />
+          <End Role="supplying_permit" Type="Self.supplying_permit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="warehouse">
+              <PropertyRef Name="warehouse_id" />
+            </Principal>
+            <Dependent Role="supplying_permit">
+              <PropertyRef Name="warehouse_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="customers" EntityType="Self.customer" />
+          <EntitySet Name="exchane_permit_items" EntityType="Self.exchane_permit_items" />
+          <EntitySet Name="exchang_permit" EntityType="Self.exchang_permit" />
+          <EntitySet Name="Items" EntityType="Self.Item" />
+          <EntitySet Name="item_units" EntityType="Self.item_units" />
+          <EntitySet Name="selling_permit" EntityType="Self.selling_permit" />
+          <EntitySet Name="selling_permit_items" EntityType="Self.selling_permit_items" />
+          <EntitySet Name="suppliers" EntityType="Self.supplier" />
+          <EntitySet Name="supplying_permit" EntityType="Self.supplying_permit" />
+          <EntitySet Name="supplying_permit_items" EntityType="Self.supplying_permit_items" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="warehouses" EntityType="Self.warehouse" />
+          <AssociationSet Name="FK_exchane_permit_items_exchang_permit" Association="Self.FK_exchane_permit_items_exchang_permit">
+            <End Role="exchang_permit" EntitySet="exchang_permit" />
+            <End Role="exchane_permit_items" EntitySet="exchane_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exchane_permit_items_Item" Association="Self.FK_exchane_permit_items_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="exchane_permit_items" EntitySet="exchane_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exchane_permit_items_supplier" Association="Self.FK_exchane_permit_items_supplier">
+            <End Role="supplier" EntitySet="suppliers" />
+            <End Role="exchane_permit_items" EntitySet="exchane_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exchang_permit_warehouse" Association="Self.FK_exchang_permit_warehouse">
+            <End Role="warehouse" EntitySet="warehouses" />
+            <End Role="exchang_permit" EntitySet="exchang_permit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exchang_permit_warehouse1" Association="Self.FK_exchang_permit_warehouse1">
+            <End Role="warehouse" EntitySet="warehouses" />
+            <End Role="exchang_permit" EntitySet="exchang_permit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_item_units_Item" Association="Self.FK_item_units_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="item_units" EntitySet="item_units" />
+          </AssociationSet>
+          <AssociationSet Name="FK_selling_permit_items_Item" Association="Self.FK_selling_permit_items_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="selling_permit_items" EntitySet="selling_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supplying_permit_items_Item" Association="Self.FK_supplying_permit_items_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="supplying_permit_items" EntitySet="supplying_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_selling_permit_items_selling_permit" Association="Self.FK_selling_permit_items_selling_permit">
+            <End Role="selling_permit" EntitySet="selling_permit" />
+            <End Role="selling_permit_items" EntitySet="selling_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_selling_permit_warehouse" Association="Self.FK_selling_permit_warehouse">
+            <End Role="warehouse" EntitySet="warehouses" />
+            <End Role="selling_permit" EntitySet="selling_permit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_selling_permit_items_supplier" Association="Self.FK_selling_permit_items_supplier">
+            <End Role="supplier" EntitySet="suppliers" />
+            <End Role="selling_permit_items" EntitySet="selling_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supplying_permit_supplier" Association="Self.FK_supplying_permit_supplier">
+            <End Role="supplier" EntitySet="suppliers" />
+            <End Role="supplying_permit" EntitySet="supplying_permit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supplying_permit_items_supplying_permit" Association="Self.FK_supplying_permit_items_supplying_permit">
+            <End Role="supplying_permit" EntitySet="supplying_permit" />
+            <End Role="supplying_permit_items" EntitySet="supplying_permit_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supplying_permit_warehouse" Association="Self.FK_supplying_permit_warehouse">
+            <End Role="warehouse" EntitySet="warehouses" />
+            <End Role="supplying_permit" EntitySet="supplying_permit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="project_enitiyModelStoreContainer" CdmEntityContainer="entities">
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="project_enitiyModel.customer">
+              <MappingFragment StoreEntitySet="customer">
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="fax" ColumnName="fax" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="telephone" ColumnName="telephone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="website" ColumnName="website" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="exchane_permit_items">
+            <EntityTypeMapping TypeName="project_enitiyModel.exchane_permit_items">
+              <MappingFragment StoreEntitySet="exchane_permit_items">
+                <ScalarProperty Name="exc_permit_id" ColumnName="exc_permit_id" />
+                <ScalarProperty Name="item_name" ColumnName="item_name" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="prod_date" ColumnName="prod_date" />
+                <ScalarProperty Name="exp_date" ColumnName="exp_date" />
+                <ScalarProperty Name="supplier_name" ColumnName="supplier_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="exchang_permit">
+            <EntityTypeMapping TypeName="project_enitiyModel.exchang_permit">
+              <MappingFragment StoreEntitySet="exchang_permit">
+                <ScalarProperty Name="exc_permit_id" ColumnName="exc_permit_id" />
+                <ScalarProperty Name="warehouse_out_id" ColumnName="warehouse_out_id" />
+                <ScalarProperty Name="warehouse_in_id" ColumnName="warehouse_in_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="project_enitiyModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="Item_name" ColumnName="Item_name" />
+                <ScalarProperty Name="Item_code" ColumnName="Item_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="item_units">
+            <EntityTypeMapping TypeName="project_enitiyModel.item_units">
+              <MappingFragment StoreEntitySet="item_units">
+                <ScalarProperty Name="item_name" ColumnName="item_name" />
+                <ScalarProperty Name="Item_unit" ColumnName="Item_unit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="selling_permit">
+            <EntityTypeMapping TypeName="project_enitiyModel.selling_permit">
+              <MappingFragment StoreEntitySet="selling_permit">
+                <ScalarProperty Name="sell_permit_id" ColumnName="sell_permit_id" />
+                <ScalarProperty Name="warehouse_id" ColumnName="warehouse_id" />
+                <ScalarProperty Name="permit_date" ColumnName="permit_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="selling_permit_items">
+            <EntityTypeMapping TypeName="project_enitiyModel.selling_permit_items">
+              <MappingFragment StoreEntitySet="selling_permit_items">
+                <ScalarProperty Name="sell_permit_id" ColumnName="sell_permit_id" />
+                <ScalarProperty Name="item_name" ColumnName="item_name" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="supplier_name" ColumnName="supplier_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="suppliers">
+            <EntityTypeMapping TypeName="project_enitiyModel.supplier">
+              <MappingFragment StoreEntitySet="supplier">
+                <ScalarProperty Name="supplier_name" ColumnName="supplier_name" />
+                <ScalarProperty Name="fax" ColumnName="fax" />
+                <ScalarProperty Name="telephone" ColumnName="telephone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="supplying_permit">
+            <EntityTypeMapping TypeName="project_enitiyModel.supplying_permit">
+              <MappingFragment StoreEntitySet="supplying_permit">
+                <ScalarProperty Name="supp_permit_id" ColumnName="supp_permit_id" />
+                <ScalarProperty Name="warehouse_id" ColumnName="warehouse_id" />
+                <ScalarProperty Name="supplier_name" ColumnName="supplier_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="supplying_permit_items">
+            <EntityTypeMapping TypeName="project_enitiyModel.supplying_permit_items">
+              <MappingFragment StoreEntitySet="supplying_permit_items">
+                <ScalarProperty Name="supp_permit_id" ColumnName="supp_permit_id" />
+                <ScalarProperty Name="item_name" ColumnName="item_name" />
+                <ScalarProperty Name="amout" ColumnName="amout" />
+                <ScalarProperty Name="prod_date" ColumnName="prod_date" />
+                <ScalarProperty Name="exp_date" ColumnName="exp_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="project_enitiyModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="warehouses">
+            <EntityTypeMapping TypeName="project_enitiyModel.warehouse">
+              <MappingFragment StoreEntitySet="warehouse">
+                <ScalarProperty Name="warehouse_id" ColumnName="warehouse_id" />
+                <ScalarProperty Name="warehouse_name" ColumnName="warehouse_name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="mgr_id" ColumnName="mgr_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
